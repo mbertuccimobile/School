@@ -1,0 +1,386 @@
+//Dr_T Unit 2 COSC-1437 Starter 
+
+Top level solution folder: C_STL_Library_YourLastName
+
+create a single main.cpp that contains code samples and implementations of each of the following topics */
+#include <map>
+#include <utility>
+#include <set>
+#include <cassert>
+#include <stack>
+#include <iostream>
+#include <vector>
+#include <algorithm> 
+#include <string>
+
+
+using namespace std; 
+typedef map<string, int> MapT;
+typedef MapT::const_iterator MapIterT;
+
+//Credit https://www.geeksforgeeks.org/passing-vector-constructor-c/ clarifications added
+class MyClassVector1 
+{ 
+  private:  
+      vector<int> vec; 
+  public: 
+      MyClassVector1 (vector<int> v)  //parameterized constructor
+      { 
+        vec = v; 
+      } 
+      void print() 
+      { 
+          /// print the value of vector 
+          for (int i = 0; i < vec.size(); i++) 
+          {
+              cout << vec[i] << " "; 
+          }    
+      } 
+};
+
+
+
+//Credit https://www.geeksforgeeks.org/passing-vector-constructor-c/ clarifications added
+class MyClassVector2 
+{ 
+    vector<int>& vec2;  
+public: 
+    // this is the right way to assign 
+    // the reference of stl container 
+    MyClassVector2(vector<int>& arr) 
+        : vec2(arr) 
+    { 
+    } 
+    void print() 
+    { 
+        /// print the value of vector 
+        for (int i = 0; i < vec2.size(); i++) 
+            cout << vec2[i] << " "; 
+    } 
+}; 
+
+//Credit https://www.geeksforgeeks.org/passing-vector-constructor-c/ clarifications added
+class MyClassVector3 
+{ 
+    vector<int>& vec3; 
+  
+public: 
+    // this is the right way to assign 
+    // the reference of stl container 
+    MyClassVector3(vector<int>& arr) 
+        : vec3(arr) 
+    { 
+    } 
+    void print() 
+    { 
+        /// print the value of vector 
+        for (int i = 0; i < vec3.size(); i++) 
+            cout << vec3[i] << " "; 
+    }
+};
+
+bool less_than_7( int value )
+    {
+        if(value < 7)
+        {
+        
+            return true;
+        }
+        else
+        {
+          return false;
+        }    
+    }
+
+int main() 
+{
+    /****Section_Name***Vectors*/ 
+    //Write the base code for: 5. std::vector example
+    vector<double> vd; //vd elments are floating point numbers
+    vector<int> vi; //vi elements are integer numbers 
+    vector<string> vs; //vs elements are string objects 
+
+    //Expand this code to:
+
+    //add 3 elements to the vd vector
+    vd.push_back(1);
+    vd.push_back(2);
+    vd.push_back(3);
+   
+    //add 3 elements to the vi vector
+    vi.push_back(4);
+    vi.push_back(5);
+    vi.push_back(6);
+
+   // add 3 elements to the vs vector
+    vs.push_back("a");
+    vs.push_back("b");
+    vs.push_back("c");
+
+   // display the 3 elements in the vd vector
+   cout << "\nValues in vd: \n"; 
+   for(double vals : vd)
+   {
+     cout << vals << endl; 
+   }
+   cout << "\nAnother way to print vector: " << endl; 
+   for(int i = 0; i < vd.size(); i++)
+   {
+     cout << vd[i] << endl; 
+   }
+
+    //loops and display the 3 elements in the vi vector
+   cout << "\nValues in vi: \n";
+    for(int i = 0; i < vi.size(); i++)
+   {
+     cout << vi[i] << endl; 
+   }
+
+   //loops and display the 3 elements in the vs vector
+   cout << "\nValues in vs: \n";
+   for(int i = 0; i < vs.size(); i++)
+   {
+     cout << vs[i] << endl; 
+   }
+
+    /****Section_Name***Vector_as_Class_Member*/ 
+    //Credit https://www.geeksforgeeks.org/passing-vector-constructor-c/
+    cout << "\nVector_as_Class_Member1" << endl; 
+    vector<int> vec; 
+        for (int i = 1; i <= 5; i++) 
+            vec.push_back(i); 
+        MyClassVector1 obj(vec); 
+        obj.print(); 
+      
+     /****Section_Name***Vector_as_Class_Member2*/ 
+    //Credit https://www.geeksforgeeks.org/passing-vector-constructor-c/
+     cout << "\n\nVector_as_Class_Member2" << endl; 
+    vector<int> vec2; 
+        for (int i = 1; i <= 5; i++) 
+            vec2.push_back(i); 
+        MyClassVector2 obj2(vec2); 
+        obj2.print(); 
+     
+     
+     /****Section_Name***Vector_as_Class_Member3*/ 
+    //Credit https://www.geeksforgeeks.org/passing-vector-constructor-c/
+     cout << "\n\nVector_as_Class_Member3" << endl; 
+    vector<int> vec3; 
+        for (int i = 1; i <= 5; i++) 
+            vec3.push_back(i); 
+        MyClassVector3 obj3(vec3); 
+        obj3.print(); 
+     
+    /****Section_Name***STL_Iterators*/ 
+    vector < int > vint(10);  // vector with 10 integers
+    vint[0] = 0;
+    vint[1] = 1;
+    vint[2] = 2;
+    vint[3] = 3;
+    vint[4] = 4;
+    vint[5] = 5;
+    vint[6] = 6;
+    vint[7] = 7;
+    vint[8] = 8;
+    vint[9] = 9;
+
+    // Display elements of the vector:
+    vector<int>::iterator it;
+    cout << "\n" << "\nSTL_Iterators\n";
+
+    for (it = vint.begin(); it != vint.end(); ++it)
+    {
+      // like pointer, iterator is derefernced to
+      // access the val of the element pointed by it:
+      cout << " " << *it;
+    }
+    
+
+    /****Section_Name*** Stack*/
+      stack <int> st;
+
+      st.push(100); // Pushes num on the stack
+      assert( st.size() == 1 ); // verify one element is on the stack
+      assert( st.top() == 100); // verify element val
+
+      //assign new val
+      st.top() = 456;
+      assert( st.top() == 456); 
+      
+      cout << "\n\nStack Section";
+      cout << "\n St.top = " << st.top();
+
+
+      // remove element
+      st.pop();
+      assert( st.empty() == true); 
+
+    //Write comments that help one better understand what the code is doing.
+    // Stack works by LIFO (Last in first out) 
+    // you push val into the stack, then pop them out
+    // stack builds downards
+
+
+    /****Section_Name**** Set*/
+    //Write the code as presented in: 3. std::set
+    cout << "\n\nSet Section" << endl;
+    set< int > iset;   // set of unique integer numbers
+
+        iset.insert( 11 ); // populate set with some values
+        iset.insert( -11 );
+        iset.insert( 55 );
+        iset.insert( 22 );
+        iset.insert( 22 );
+        if ( iset.find( 55 ) != iset.end() ) { // is value already stored?
+            iset.insert( 55 );
+        }
+        assert( iset.size() == 4 ); // sanity check :-)
+        set< int >::iterator it1;
+        for ( it1 = iset.begin(); it1 != iset.end(); it1++ ) {
+            cout << " " << *it1;
+        }
+        
+    //Write comments that help one better understand what the code is doing.
+    // Set is kind of like well as set of numbers.
+    // you can use a set to store values
+
+
+    /****Section_Name****Pair_Structure*/
+    //Write the code as presented in: 4. std::pair structure
+    
+    pair< string, string > strstr;
+        strstr.first = "Hello";
+        strstr.second = "World";
+
+        pair< int, string > intstr;
+        intstr.first = 1;
+        intstr.second = "one";
+
+        pair< string, int > strint( "two", 2 );
+        assert( strint.first == "two" );
+        assert( strint.second == 2 );
+
+        cout << "\n\nPair Section" << endl << endl;
+        cout << "intstr.first = " << intstr.first << endl;
+        cout << "intstr.second = " << intstr.second << endl << endl;
+
+        cout << "strint.first = " << strint.first << endl;
+        cout << "strint.second = " << strint.second << endl;
+
+
+    //Write comments that help one better understand what the code is doing.
+    // creates a pair structure that holds two objects of two differnt types.
+    // holds exactly two elements
+
+
+    /****Section_Name**** Map_Insert*/
+    //Write the code as presented in: 14. std::map::insert
+    MapT amap;
+    pair< MapIterT, bool> 
+    result = amap.insert( make_pair( "Fred", 45 ) );
+
+    assert( result.second == true );
+    assert( result.first->second == 45 );
+
+    result = amap.insert( make_pair( "Fred", 54 ) );
+
+    // Fred was already in the map, and result.first
+    // simply points there now:
+    assert( result.second == false );
+    assert( result.first->second == 45 );
+
+    cout << "\n\nMap Section" << endl << endl;
+   
+
+
+    //Write comments that help one better understand what the code is doing.
+    // used to insert elements 
+    // extends container by however many more elements are added
+
+    /****Section_Name****Map_Summary*/
+    //Write the code as presented in: 16. Map summary
+    map< string, string > phone_book;
+        phone_book[ "411" ] = "Directory";
+        phone_book[ "911" ] = "Emergency";
+        phone_book[ "508-678-2811" ] = "BCC";
+        if ( phone_book.find( "411" ) != phone_book.end() ) 
+        {
+            phone_book.insert(
+                make_pair(
+                    string( "411" ),
+                    string( "Directory" )
+                )
+            );
+        }
+        assert( phone_book.size() == 3 );
+        map< string, string >::const_iterator it3;
+        for ( it3 = phone_book.begin(); it3 != phone_book.end(); ++it3 ) 
+        {
+            cout
+                << " " << it3->first
+                << " " << it3->second
+                << endl
+                ;
+        }
+    //Write comments that help one better understand what the code is doing.
+    // Map is a container that holds keys/ values
+    // Maps are formed with a combo of these values
+    // Can hold different data types
+
+    /****Section_Name**** Sort_Algorithm*/
+    //Write the code as presented in: 23. sort example
+     cout << "\n\nSort Algorithm" << endl << endl;
+   
+    
+     int arr[ 100 ];
+    sort( arr, arr + 100 );
+
+    vector<int>  v1;
+    // adds numbers to vector
+    v1.push_back(3);
+    v1.push_back(1);
+    v1.push_back(7);
+    sort( v1.begin(), v1.end() );
+
+    vector <int>::iterator it4;
+       // loops and displays sorted vector
+        for ( it4 = v1.begin(); it4 != v1.end(); it4++ ) {
+            cout << " " << *it4;
+        }
+
+    //Write comments that help one better understand what the code is doing.
+    // sorts numbers in a vector
+    // uses #include <algorith>
+
+
+    /****Section_Name****Predicate_Algorithm*/
+    //Write the code as presented in: 25. count_if and predicate function
+    
+    // function is on line 83 outside of main
+    cout << "\n\nPredicate_Algorithm" << endl << endl;
+    
+    // Declares a vector of int 
+    vector< int > v2;
+    
+    // adds val to vector
+    v2.push_back(2);
+    v2.push_back(20);
+    v2.push_back(6);
+    v2.push_back(30);
+    v2.push_back(3);
+    
+    // declares value used within boolean function
+    int value;
+
+    
+    int count_less = count_if( v2.begin(), v2.end(), less_than_7 );
+
+    cout << "The number of numbers in vector v2 less than 7 are : " <<  count_less;
+    
+    //Write comments that help one better understand what the code is doing. 
+    // uses a boolean function to test a condition
+    // if the condition is satisfied within the vector, it is marked true
+    // returns the # of numbers that are less than 7
+      return 0; 
+ }
+
