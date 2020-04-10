@@ -1,0 +1,117 @@
+//Student Name: Michael Bertucci
+
+//Teacher: Dr. Tyson McMillan
+
+//Date: 4/8/2020
+
+//A program to practice working with multi-dimensional arrays
+
+#include <iostream>
+
+using namespace std;
+
+
+
+/*
+
+Research Input data: go to http://www.weather.com
+
+Pick two cities of your choice. Fill in the temperature for the 7 days of this week of both cities. Fill in this text data table, which will be used in your program.
+
+//City_One = 1, City_Two = 2  Replace City_One and City_Two with the names of your cities
+
+//Data Table
+
+//City X, Day X: Temp
+
+Denton, Day 1: 53
+
+Denton, Day 2: 56
+
+Denton, Day 3: 57
+
+Denton, Day 4: 67
+
+Denton, Day 5: 68
+
+Denton, Day 6: 74
+
+Denton, Day 7: 78
+
+Plano, Day 1: 57
+
+Plano, Day 2: 59
+
+Plano, Day 3: 60
+
+Plano, Day 4: 68
+
+Plano, Day 5: 69
+
+Plano, Day 6: 74
+
+Plano, Day 7: 77
+
+*/
+
+
+ 
+
+int main()
+
+{
+
+      const int CITY = 2;
+
+      const int WEEK = 7;
+
+    int temperature[CITY][WEEK];
+    string cityNames[2];
+
+    // Inserting the values into the temperature array
+
+    //note for every dimension of the array you need a for loop 2 dimensions = 2 for loops
+
+    for (int i = 0; i < CITY; ++i)
+
+    {
+         //Note your input data from the above
+         //Modified input for city 1/2
+        cout << "\nPlease enter City " << (i+1) << "'s name: ";
+        cin >> cityNames[i];
+
+
+        for(int j = 0; j < WEEK; ++j)
+
+        {
+
+            cout << cityNames[i] << ", Day " << j + 1 << " : ";
+
+            cin >> temperature[i][j];
+
+        }
+
+    }
+
+    cout << "\n\nDisplaying Values:\n";
+  
+  // Accessing the values from the temperature array
+
+    for (int i = 0; i < CITY; ++i)
+
+    {
+
+        for(int j = 0; j < WEEK; ++j)
+
+        {
+
+            cout << cityNames[i] << ", Day " << j + 1 << " = " << temperature[i][j] << endl;
+
+        }
+
+    }
+    return 0;
+
+}
+
+//Source
