@@ -1,0 +1,326 @@
+//Dr_T helping students get started on Unit 4 scoreboard
+//Using object oriented coding for a scoreboard:  Basketball
+//classes Team, Scoreboard //PRIVATE TEAM class members
+#include <iostream>
+#include <unistd.h> //for sleep command
+#include <string>
+#include <iomanip> //for setw
+using namespace std; 
+
+class Team
+{
+  private: 
+    int score; 
+    int Timeout_Count; 
+    string name; 
+    string Coach_Name;
+    string Home_City;
+    
+  public: 
+    Team()//default constructor  
+    {
+      score = 0;
+      name = "TeamName";
+      Home_City = "City Name";
+      Timeout_Count = 6;
+      
+    }  
+    // Setters
+    void setScore(int s) { score = s; }
+    void setName(string n) { name = n; }
+    void setCoach_Name(string cn) { Coach_Name = cn; }
+    void setHome_City(string hc) { Home_City = hc; }
+    
+    void setTimeout_Count( int tc) {Timeout_Count = tc;}
+   
+    // Getters
+    double getScore() const { return score; }
+    double getTimeout_Count() const { return Timeout_Count;}
+    string getName() const { return name; }
+    string getCoach_Name() const {return Coach_Name; }
+    string getHome_City() const {return Home_City; }
+   
+};
+
+class Scoreboard
+{
+  private: 
+    int period;
+    bool poss; //true = home, false = visitor 
+    Team team1; //double dot notation to get its data
+    Team team2; //double dot notation to get its data
+    int playerNumber;
+    int playerFouls; 
+    int minutes;
+    int seconds; 
+    int down;
+    int togo;
+    bool Home_Status;
+  
+  public:
+    Scoreboard() //default constructor 
+    {
+      period = 1;
+      poss = true; //home team has the ball intially 
+      playerNumber = 0;
+      playerFouls = 0; 
+      minutes = 14;
+      seconds = 59; 
+      down = 1;
+      togo = 10;
+      Home_Status = false;
+    }  
+    void setPeriod(int p) { period = p; }
+    void setPoss(bool po) { poss = po; }
+    void setTeam1(Team t1) { team1 = t1; } //remember when the object changes
+    void setTeam2(Team t2) {team2 = t2; } //remember when the object changes
+     void setMinutes(int m) { minutes = m; }
+    void setSeconds(int s) { seconds = s; }
+    void setHome_Status(bool hs) { Home_Status = hs; }
+    
+    int getPeriod() const { return period; }
+    bool getPoss() const { return poss; }
+    Team getTeam1() const { return team1; }
+    Team getTeam2()  const { return team2; }
+    int getMinutes() const { return minutes; }
+    int getSeconds() const { return seconds; }
+     bool getHome_Status() const { return Home_Status; }
+
+    
+    
+    
+    
+   void showScoreboard()
+    {
+        system("clear"); //clear the screen 
+         
+         
+         string red = "\x1b[91;1m"; //red 
+         string reset = "\x1b[0m";
+        
+
+        
+        //Show Scoreboard
+    //dealing with Boolean data
+        if(Home_Status == true)
+        {
+          cout << "| Home team has the ball \t\t\t\t\t\t\t\t\t\t\t\t|\n" << endl; 
+        }
+        else
+        {
+          cout << "|\t|Home Team|\t\t\t\t\t\t\t|Visiting Team| \t\t\t\t|" << endl; 
+        }
+
+
+       cout << "-------------------------------------------------------------------------\n";
+        cout << "| \t\t\t\t\t\t\tScoreboard                                  |\n";
+        cout << "| \t\t\t\t\t\t\t  |" << minutes << ":" << seconds << "|" <<"\t\t\t\t\t\t\t\t\t|" << endl;
+       
+       cout << "| City  : " << team1.getHome_City() << "\t\t\t\t\t\t City  : " << team2.getHome_City() << "\t\t\t\t| "  << endl;
+
+
+         cout << "| Team 1: " << team1.getName() << "\t\t\t\t\t\t Team 2: " << team2.getName() << "\t\t\t\t| "  << endl;
+
+        cout << "| Team 1: Score: " << red << team1.getScore() << reset << "\t\t\t\t\t \t Team 2: Score: " << red <<  team2.getScore() << reset << "\t\t\t\t|" << endl;
+        
+        cout << "| \t\t\t\t\t\t\t  |QTR:" << period <<"|\t\t\t\t\t\t\t\t\t|" << endl; 
+        
+        cout << "|    Timeouts:" << team1.getTimeout_Count() << "\t\t   |Down:" << down <<"|\t  \t|To Go:" << togo << "|\t Timeouts:" << team2.getTimeout_Count() << "\t\t\t\t|" <<  endl; 
+
+        
+
+    }
+};
+
+ //A void function to instantiate and control scoreboard data 
+void scoreboardControls()
+{
+  Scoreboard s; //instantiate the the scoreboard object s
+  Team tOneMain; //team Object that will become a member of scoreboard S
+  Team tTwoMain; //team Object that will become a member of scoreboard S
+  char decision = '\0';
+  int newScore = 0; 
+  int teamChoice = 0;
+  int quater = 0;
+  int time = 0;
+  string newName = ""; 
+
+  s.setTeam1(tOneMain); // placed update Team1 object in s
+  s.setTeam1(tTwoMain); // placed update Team2 object in s
+
+  //Access the data outside of the class 
+  /*cout << "\n Period here " << s.getPeriod() << endl; 
+  cout << "\n Team 1 intial name: " << s.getTeam1().getName() << endl; 
+  */
+
+  //work with the scoreboard and menu 
+  do
+  {
+        //show the scoreboard and clear the screen each time 
+        s.showScoreboard();
+       
+       //Menu options for the user 
+        cout << "Menu: " << endl; 
+        cout << "A. Update Score" << endl; 
+         cout << "B. Update Team Name" << endl; 
+         cout << "C. Update Quater" << endl; 
+         cout << "D. Update Clock" << endl; 
+         cout << "E. Set City" << endl; 
+          cout << "F. Set Timeouts" << endl; 
+       
+        
+        
+        cout << "X. To Exit" << endl; 
+        cin >> decision;  
+     
+
+        if(decision == 'a' || decision == 'A')  // Updates Score
+        {
+          cout << "Please enter which Team you'd like to update: (1 or 2) \n";
+           cin  >> teamChoice;
+          
+          // updates team 1
+          if (teamChoice == 1)
+          {
+            cout << "What is the new score? > ";
+             cin >> newScore; 
+            tOneMain.setScore(newScore);
+            cout << "\nUpdating new score for Team1 to..." << tOneMain.getScore() << endl;   
+            sleep(3); //pause 3 seconds.  
+          }
+           if (teamChoice == 2)
+          {
+            cout << "What is the new score? > ";
+             cin >> newScore; 
+            tTwoMain.setScore(newScore);
+            cout << "\nUpdating new score for Team2 to..." << tTwoMain.getScore() << endl;   
+            sleep(3); //pause 3 seconds.  
+          }
+          
+         
+          
+        }
+        else if(decision == 'b' || decision == 'B') // Updates Team Names
+        {
+          cout << "Please enter which Team you'd like to update: (1 or 2) \n";
+           cin  >> teamChoice;          
+
+          if (teamChoice ==1)
+          {
+          cout << "Team 1 NAME update. \n";
+          cout << "What is the new Name? > ";
+          cin >> newName; 
+          tOneMain.setName(newName);
+          cout << "\nUpdating new name for Team1 to..." << tOneMain.getName() << endl;
+          sleep(3); //pause 3 seconds. 
+          }
+
+          if (teamChoice ==2)
+          {
+          cout << "Team 2 NAME update. \n";
+          cout << "What is the new Name? > ";
+          cin >> newName; 
+          tTwoMain.setName(newName);
+          cout << "\nUpdating new name for Team1 to..." << tTwoMain.getName() << endl;
+          sleep(3); //pause 3 seconds. 
+          }
+
+
+        }
+        if(decision == 'c' || decision == 'C')  // Updates Quater
+        {
+          cout << "What quater is it? > "; 
+            cin >> quater; 
+            s.setPeriod(quater);
+            cout << "\nUpdating quater..." <<  s.getPeriod() << endl;
+          sleep(3); //pause 3 seconds.   ;
+
+          
+        }
+
+        else if(decision == 'd' || decision == 'D') // Updates Time
+        {
+          cout << "Enter The Value for Minutes> "; 
+            cin >> time; 
+            s.setMinutes(time);
+           
+        
+          cout << "\nEnter The Value for Seconds> "; 
+            cin >> time; 
+            s.setSeconds(time);
+            cout << "\nUpdating Time..."  << endl;
+          sleep(3); //pause 3 seconds.   ;
+    }
+     else if(decision == 'e' || decision == 'E') // Updates City Name
+        {
+          cout << "Please enter which Team you'd like to update: (1 or 2) \n";
+           cin  >> teamChoice;          
+
+          if (teamChoice ==1)
+          {
+          cout << "Team 1 City Name update. \n";
+          cout << "What is the new Name? > ";
+          cin >> newName; 
+          tOneMain.setHome_City(newName);
+          cout << "\nUpdating city for Team1 to..." << tOneMain.getHome_City() << endl;
+          sleep(3); //pause 3 seconds. 
+          }
+
+          if (teamChoice ==2)
+          {
+         cout << "Team 2 City Name update. \n";
+          cout << "What is the new Name? > ";
+          cin >> newName; 
+          tTwoMain.setHome_City(newName);
+          cout << "\nUpdating city for Team1 to..." << tTwoMain.getHome_City() << endl;
+          sleep(3); //pause 3 seconds. 
+          }
+
+    }
+      else if(decision == 'f' || decision == 'F') // Updates timeouts
+        {
+
+          cout << "Please enter which Teams timeouts you'd like to update: (1 or 2) \n";
+           cin  >> teamChoice;          
+
+          if (teamChoice ==1)
+          {
+          cout << "Team 1 timeout update. \n";
+          cout << "How many timeouts are remaining > ";
+          cin >> time; 
+          tOneMain.setTimeout_Count(time);
+          cout << "\nUpdating timeouts for Team1 to..." << tOneMain.getTimeout_Count() << endl;
+          sleep(3); //pause 3 seconds. 
+          }
+
+          if (teamChoice ==2)
+          {
+           cout << "Team 2 timeout update. \n";
+          cout << "How many timeouts are remaining > ";
+          cin >> time; 
+          tTwoMain.setTimeout_Count(time);
+          cout << "\nUpdating timeouts for Team1 to..." << tTwoMain.getTimeout_Count() << endl;
+          sleep(3); //pause 3 seconds. 
+          }
+        
+        }
+  else if(decision == 'x' || decision == 'X')
+        {
+          cout << "\nEXITED PROGRAM..." << endl; 
+        }
+
+        s.setTeam1(tOneMain); //setTeam1 to the latest data 
+        s.setTeam2(tTwoMain); //setTeam2 to the latest data 
+      
+  }while(decision != 'x' && decision != 'X');     
+
+
+}
+
+int main() 
+{
+   
+   scoreboardControls(); //run the scoreboard processes and menus
+
+  return 0; 
+}
