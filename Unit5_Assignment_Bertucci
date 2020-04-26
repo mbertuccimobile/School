@@ -1,0 +1,315 @@
+//  Restaurant Project Struct style Dr_T Dr. Tyson McMillan 10-2-2019
+#include <unistd.h>
+#include <iostream>
+#include<string>
+#include<vector>
+#include<iomanip>
+#include<fstream> //write to a file 
+using namespace std; 
+
+
+
+//*******Class Style********/
+class MenuItemList 
+{
+  private: 
+    string name;
+    double itemCost;
+    string desc;
+    char addLetter;
+    char removeLetter; 
+    int count = 0; 
+  public:
+    void setName(string n) { name = n; }
+    void setItemCost(double iT) { itemCost = iT; }
+    void setDesc(string d) { desc = d; }
+    void setAddLetter(char aL) { addLetter = aL; }
+    void setRemoveLetter(char rL) { removeLetter = rL; }
+    void setCount(int c ) { count += c; }
+   
+    string getName() const { return name; }
+    double getItemCost() const { return itemCost; }
+    string getDesc() const { return desc; }
+    char getAddLetter() const { return addLetter; }
+    char getRemoveLetter() const { return removeLetter; }
+    int getCount() const { return count; }
+    //void print() { // print menu item data on demad }
+}; 
+
+
+
+//************Class Style*****/
+//function definitions
+void populateObjectMenu(vector<MenuItemList> &entireMenu)
+{
+  //put some default values in our Menu
+  const int numItems = 7; 
+  MenuItemList Item1; //Item1 is an object 
+  MenuItemList Item2;
+  MenuItemList Item3; 
+  MenuItemList Item4;
+  MenuItemList Item5;
+  MenuItemList Item6;
+  MenuItemList Item7;    
+
+  entireMenu.push_back(Item1); //add to the end of list the Item1
+  entireMenu.push_back(Item2); //add to the end of list the Item2
+  entireMenu.push_back(Item3); //add to the end of list the Item3
+  entireMenu.push_back(Item4); //add to the end of list the Item4
+  entireMenu.push_back(Item5); //add to the end of list the Item5
+  entireMenu.push_back(Item6); //add to the end of list the Item6
+  entireMenu.push_back(Item7); //add to the end of list the Item7
+
+  vector<string> defaultMenuNames = {"Big Mac", "Double Quater Pounder", "Quater Pounder", "Mcdouble", "Double Cheeseburger", "Cheeseburger", "Hamburger"}; 
+  vector<char> defaultAddLetters = {'A', 'B', 'C', 'D', 'E', 'F', 'G'}; 
+  vector<char> defaultRemoveLetters = {'a', 'b', 'c', 'd', 'e', 'f', 'g'}; 
+
+  for(int i = 0; i < numItems; i++)
+  {
+    //add each item to the default list efficiently 
+    entireMenu[i].setName(defaultMenuNames[i]); 
+    entireMenu[i].setAddLetter(defaultAddLetters[i]); 
+    entireMenu[i].setRemoveLetter(defaultRemoveLetters[i]); 
+    entireMenu[i].setItemCost(7.00 - i); //set a random starter cost for each item
+    entireMenu[i].setCount(0); //initialze all counts to 0
+    entireMenu[i].setDesc("delicious"); //set all default desc to "delicous"
+  }
+  // Menu Description
+    entireMenu[0].setDesc("   2 Patties and Mac Sauce");
+    entireMenu[1].setDesc("   2 (1/4)lb Patties and bun");
+    entireMenu[2].setDesc("   1/4lb Pattyand and bun");
+    entireMenu[3].setDesc("   Big Mac without the toppings/sauce/bun");
+    entireMenu[4].setDesc("   Double the cheese and the pattys");
+    entireMenu[5].setDesc("   Normal cheese burger");
+    entireMenu[6].setDesc("   small sad hamburger");
+
+
+  // Menu Prices
+    entireMenu[0].setItemCost(3.99);
+    entireMenu[1].setItemCost(4.79);
+    entireMenu[2].setItemCost(3.79);
+    entireMenu[3].setItemCost(2.00);
+    entireMenu[4].setItemCost(1.69);
+    entireMenu[5].setItemCost(1.00);
+    entireMenu[6].setItemCost(1.00);
+
+
+}
+
+
+
+
+//*************Class Style*******/
+void showObjectMenu(vector<MenuItemList> &m)
+{
+  cout << fixed << setprecision(2);//set doubles to 2 decimal places
+  cout << "\x1b[38;5;9m";
+  cout << "\t\t\t\t\t\t  McDonalds";
+  cout << "\x1b[0m";
+  cout << " Burger Menu" << endl<< endl; 
+  cout << "ADD  \t\t\t\tNAME \t COST \tREMOVE\tCOUNT\tDESC"<<endl; 
+  for(int i = 0; i < m.size(); i++)
+  {
+    cout << m[i].getAddLetter() << ")" << setw(22) << m[i].getName() 
+    << setw(5) << "$" << m[i].getItemCost() << setw(5) << "(" << m[i].getRemoveLetter()
+    << ")" << setw(7) << m[i].getCount() << setw(13) << m[i].getDesc() 
+    <<endl; 
+  }  
+}
+
+void printTextReciept(vector<MenuItemList> &m,double tip, double subtotal, double tax)
+{
+  fstream reciept; 
+  reciept.open("reciept.txt",ios::out);
+
+   reciept << "\t\t\t\t McDonalds";
+  reciept << "\x1b[0m";
+  reciept << " Reciept" << endl<< endl; 
+  reciept << "---------------------------------------------------" << endl;
+  reciept << "QTY\t Item \t\t\t                   Total" << endl;
+  reciept << "---------------------------------------------------" << endl;
+
+  for (int i = 0; i < m.size(); i++)
+  {
+    if(m[i].getCount() > 0)
+    {
+      cout << m[i].getCount() << "\t" <<setw(24) << left << m[i].getName()  << setw(12) << right << "$" << (m[i].getItemCost() * m[i].getCount())  << endl; 
+    }
+  }
+
+ 
+reciept << endl;
+reciept << "   \t      \t\t\t                  --------" << endl;
+reciept << "   \t      \t\t\t         Subtotal: " <<fixed << setprecision(2) << subtotal <<  endl;
+
+reciept << "   \t      \t\t\t         Tax:      " <<fixed << setprecision(2) << (subtotal*tax)
+ <<  endl;
+
+
+reciept << "   \t      \t\t\t         Tip:      " <<fixed << setprecision(2) << tip << endl; 
+reciept << "   \t      \t\t\t                  --------" << endl;
+reciept << "   \t      \t\t\t         Total:    " <<fixed << setprecision(2) << (tip+subtotal+tax) << endl;
+
+  reciept.close();  
+
+  
+
+  /*// the user-selected menu item
+    */
+
+}
+
+void acceptObjectOrder(vector<MenuItemList> &m)
+  {
+    char option = '\0';
+    double subtotal = 0.0; 
+    double tip = 0.00;
+    double tax = 0.0825;
+    double total = (subtotal * tax) + tip;
+    int payment;
+    double cash;
+  //handle the tip process here
+  //caculate total due + tax + tip
+  // accept payment type
+  //handle cash vs. credit
+  //handle on-screen reciept generation here
+  //handle on the text file reciept generation here
+  //loop the program, reset item counts and total due
+  //until exit 
+do
+  {
+    cout << "\nPlease choose an item (x to Exit): ";
+    cin >> option; 
+
+    for(int i=0; i < m.size(); i++)
+    {
+      if(option == m[i].getAddLetter())
+      {
+        cout << "\nMenu Item " << m[i].getAddLetter() << " selected."; 
+        m[i].setCount(1); //increment the count by 1
+        cout << "\033[2J\033[1;1H"; //clear screen 
+        cout << "\n1 UP on " << m[i].getName() << endl;
+        subtotal += m[i].getItemCost(); //increment the subtotal by the cost of the item 
+        showObjectMenu(m); //show the updated menu
+        cout << "\nSubtotal: $" << subtotal << endl;  
+      }
+      else if(option == m[i].getRemoveLetter())
+      {
+        cout << "\nRemove Item " << m[i].getRemoveLetter() << " selected."; 
+        if(m[i].getCount() > 0) //subtract if and only if the count is > 0
+        {
+          m[i].setCount(-1); //decrement the count by 1
+          cout << "\033[2J\033[1;1H"; //clear screen 
+          cout << "\n1 DOWN on " << m[i].getName() << endl;
+          subtotal -= m[i].getItemCost(); //decrement the subtotal by the cost of the item
+          showObjectMenu(m); //show the updated menu
+          cout << "\nSubtotal: $" << subtotal << endl;  
+        }
+        else //the the user why you blocked item removal 
+        {
+            
+            cout << "\nItem count must be > 0 to remove: " << m[i].getName() << endl;
+        }
+      }
+      else if(
+                option != m[i].getAddLetter() && 
+                option != m[i].getRemoveLetter() &&
+                option != 'x' &&
+                option != 'X' 
+            ) //test for all of my valid inputs
+            {
+              if(i == 0)
+              {
+                cout << "\nInvalid input (" << option << "). Please try again." << endl; 
+              }  
+            }
+    }
+  }while(option != 'x' && option != 'X'); 
+  cout <<"\033[2J\033[1;1H";
+  cout << "\nThank you for placing your order." << endl << endl; 
+   cout << "\nThe Subtotal is: " << subtotal << endl; 
+  
+  cout << "Please Enter the Amount you would like to Tip: $";
+  cin >> tip;
+
+    cout << "\n\nPrinting Reciept...";
+    cout.flush();
+    sleep(3);
+
+  cout << "\033[2J\033[1;1H"; //clear screen 
+
+  cout << fixed << setprecision(2);//set doubles to 2 decimal places
+  cout << "\x1b[38;5;9m";
+  cout << "\t\t\t\t McDonalds";
+  cout << "\x1b[0m";
+  cout << " Reciept" << endl<< endl; 
+  cout << "---------------------------------------------------" << endl;
+  cout << "QTY\t Item \t\t\t                   Total" << endl;
+  cout << "---------------------------------------------------" << endl;
+
+  for (int i = 0; i < m.size(); i++)
+  {
+    if(m[i].getCount() > 0)
+    {
+      cout << m[i].getCount() << "\t" <<setw(24) << left << m[i].getName()  << setw(12) << right << "$" << (m[i].getItemCost() * m[i].getCount())  << endl; 
+    }
+  }
+
+ 
+cout << endl;
+cout << "   \t      \t\t\t                  --------" << endl;
+cout << "   \t      \t\t\t         Subtotal: " <<fixed << setprecision(2) << subtotal <<  endl;
+
+cout << "   \t      \t\t\t         Tax:      " <<fixed << setprecision(2) << (subtotal*tax)
+ <<  endl;
+
+
+cout << "   \t      \t\t\t         Tip:      " <<fixed << setprecision(2) << tip << endl; 
+cout << "   \t      \t\t\t                  --------" << endl;
+cout << "   \t      \t\t\t         Total:    " <<fixed << setprecision(2) << (tip+subtotal+tax) << endl;
+
+cout << "\n\nWould you like to pay with cash or card? (1 for cash, 2 for card)" << endl;
+cin >> payment;
+
+if(payment == 1)
+{
+  cout << "\nPlease Enter The Amount of Cash Paid: ";
+  cin >> cash;
+  if (cash < (tip+subtotal+tax))
+  {
+    cout << "\nPlease provide more cash, or use a different payment method!";
+  }
+  else
+    cout << "\nYour Change is: " << (cash - (tip+subtotal+tax));
+    cout << "\nHave a Good Day!";
+}
+else if( payment ==2)
+{
+  cout << "\nProcessing...";
+  cout.flush();
+  sleep(3);
+  cout << "\n Thank you! Have a good day.";
+
+  
+  cout.flush();
+  sleep(3);
+
+}
+printTextReciept(m,tip,subtotal,tax); 
+ cout << "\033[2J\033[1;1H"; //clear screen 
+  
+showObjectMenu(m);
+  }
+
+int main() 
+{
+
+//*******Class Style********/
+vector<MenuItemList> objectMenu; 
+populateObjectMenu(objectMenu); //put some default values in the menu
+showObjectMenu(objectMenu); //show the initial menu on screen 
+acceptObjectOrder(objectMenu);//solve and call acceptObjectOrder void function here
+
+
+  return 0; 
+}
